@@ -6,10 +6,10 @@ public class Pedido {
     ArrayList<Lanche> lanchesSelecionados = new ArrayList<>();
     double total = 0;
 
-    @Override
-    public String toString() {
-        return this.usuario.nome;
-    }
+//    @Override
+//    public String toString() {
+//        return this.usuario.nome;
+//    }
 
     public void imprimirNota() {
         System.out.println("NOTA FISCAL BAKELIVERY:");

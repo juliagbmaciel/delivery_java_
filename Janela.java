@@ -79,6 +79,7 @@ public class Janela extends JFrame{
             }
             case "voltar_initial" -> {
                 Aplicativo.restaurante = null;
+                Aplicativo.cachePedido.clear();
                 dispose();
                 telas.paintInitialPage();
             }
@@ -167,29 +168,21 @@ public class Janela extends JFrame{
     }
 
     public void chooseUser (){
-        for(Usuario user : Aplicativo.usuariosCadastrados){
-            if(user.nome.equals(Objects.requireNonNull(comboBox.getSelectedItem()).toString())){
-                pedido.usuario = user;
-                Aplicativo.cachePedido.add(pedido);
-            }
-        }
+        pedido.usuario = comboBox.getItemAt(comboBox.getSelectedIndex());
+        Aplicativo.cachePedido.add(pedido);
         dispose();
         telas.paintSelectRest(false);
     }
 
     public void selectRest (){
-        for(Restaurante rest : Aplicativo.restaurantesCadastrados){
-            if(rest.nome.equals(Objects.requireNonNull(comboBoxRest.getSelectedItem()).toString())){
-                Aplicativo.cachePedido.get(0).restaurante = rest;
-                Aplicativo.restaurante = rest;
-            }
-        }
+        Aplicativo.cachePedido.get(0).restaurante = comboBoxRest.getItemAt(comboBoxRest.getSelectedIndex());
+        Aplicativo.restaurante = comboBoxRest.getItemAt(comboBoxRest.getSelectedIndex());
         dispose();
         telas.paintCart();
     }
 
     public void selectRestMenu (){
-        Aplicativo.cadMenu = comboBoxRest.getItemAt(comboBoxRest.getItemCount()-1);
+        Aplicativo.cadMenu = comboBoxRest.getItemAt(comboBoxRest.getSelectedIndex());
         dispose();
         telas.paintCadMenu(true);
     }
@@ -248,7 +241,7 @@ public class Janela extends JFrame{
 
     public void addItemToCart(){
         Pedido pedido = Aplicativo.cachePedido.get(0);
-        Lanche lancheSelecionado = comboBoxFood.getItemAt(comboBoxFood.getItemCount()-1);
+        Lanche lancheSelecionado = comboBoxFood.getItemAt(comboBoxFood.getSelectedIndex());
         pedido.lanchesSelecionados.add(lancheSelecionado);
         paintCartLenght(pedido.lanchesSelecionados.size());
     }
@@ -262,6 +255,7 @@ public class Janela extends JFrame{
     }
 
     public void paintJTable(){
+        System.out.println("jtablee");
         JPanel panel = new JPanel();
         panel.setBounds(40,120,300,400);
         panel.setLayout(new BorderLayout());
@@ -281,6 +275,7 @@ public class Janela extends JFrame{
 
         paintTotal(pedido.total);
         label.add(panel);
+
     }
 
     public void paintTotal(double total){
@@ -318,7 +313,7 @@ public class Janela extends JFrame{
     }
 
     public void chooseOrder(){
-        Aplicativo.restaurante = comboBoxRest.getItemAt(comboBoxRest.getItemCount()-1);
+        Aplicativo.restaurante = comboBoxRest.getItemAt(comboBoxRest.getSelectedIndex());
         dispose();
         telas.paintOwnerOrder();
     }
@@ -334,8 +329,20 @@ public class Janela extends JFrame{
 
 
     public void selectOrder(){
-        Pedido pedidoEscolhido;
-        System.out.println(comboBoxPedido.getItemAt(comboBoxPedido.getItemCount()-1).lanchesSelecionados);
+        if(comboBoxPedido.getItemAt(comboBoxPedido.getSelectedIndex()) == null){
+            dispose();
+            telas.paintNoOrder();
+        }else{
+
+            Aplicativo.cachePedido.clear();
+            Aplicativo.cachePedido.add(comboBoxPedido.getItemAt(comboBoxPedido.getSelectedIndex()));
+            JOptionPane.showMessageDialog(this,"Usuario: " + Aplicativo.cachePedido.get(0).usuario.nome + " \nCPF do usuário: "
+            + Aplicativo.cachePedido.get(0).usuario.cpf);
+            dispose();
+            telas.paintOrderTable();
+        }
+
+
 
 
 

@@ -9,7 +9,6 @@ public class Telas {
     }
 
     public void paintInitialPage(){
-
         this.icon = new ImageIcon(Objects.requireNonNull(Main.class.getResource("Image/background.png")));
         this.janela = new Janela("Bakelivery", icon);
         janela.paintButton(209,51,86,410, "open_user");
@@ -130,6 +129,22 @@ public class Telas {
         janela.paintButton(209,51,90,368, "select_order");
         janela.paintButton(40,40,18,13, "voltar_initial");
         janela.paintOrders();
+        janela.setVisible(true);
+    }
+
+    public void paintOrderTable(){
+        this.icon = new ImageIcon(Objects.requireNonNull(Main.class.getResource("Image/backgroundOrderTable.png")));
+        this.janela = new Janela("Bakelivery", icon);
+        janela.paintButton(40,40,18,13, "voltar_initial");
+        janela.paintJTable();
+        janela.setVisible(true);
+    }
+
+
+    public void paintNoOrder(){
+        this.icon = new ImageIcon(Objects.requireNonNull(Main.class.getResource("Image/noOrder.png")));
+        this.janela = new Janela("Bakelivery", icon);
+        janela.paintButton(40,40,18,13, "voltar_initial");
         janela.setVisible(true);
     }
 
