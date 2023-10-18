@@ -1,11 +1,10 @@
 import javax.swing.*;
-import java.awt.*;
-import java.util.ArrayList;
-import java.util.Objects;
-import java.util.regex.Pattern;
-import java.util.regex.Matcher;
 import javax.swing.border.EmptyBorder;
 import javax.swing.table.DefaultTableModel;
+import java.awt.*;
+import java.util.ArrayList;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public class Janela extends JFrame{
 
@@ -21,6 +20,10 @@ public class Janela extends JFrame{
     JComboBox<Pedido> comboBoxPedido;
     JLabel cartLabel;
     JLabel textError;
+
+    JTable menu;
+
+    DefaultTableModel modelMenu;
 
     Janela(String title, ImageIcon icon){
         super(title);
@@ -40,8 +43,8 @@ public class Janela extends JFrame{
         label.add(button);
     }
 
-    public void paintInput(int width, int height, int x, int y, String action){
-        textInput = new TextInput(width, height, x, y, action);
+    public void paintInput(int width, int height, int x, int y){
+        textInput = new TextInput(width, height, x, y);
         label.add(textInput);
         inputs.add(textInput);
     }
@@ -92,9 +95,7 @@ public class Janela extends JFrame{
                 telas.paintChooseUser();
             }
             case "choose_user" -> chooseUser();
-
             case "select_rest" -> selectRest();
-
             case "pratos" -> {
                 dispose();
                 telas.paintCadMenuInd();
@@ -118,8 +119,35 @@ public class Janela extends JFrame{
             }
             case "select_bakery_order" -> this.chooseOrder();
             case "select_order" -> this.selectOrder();
+            case "remove_prato" -> {
+                dispose();
+                telas.paintBakeryRemove();
+            }
+            case "select_bakery" -> {
+                selectBakery();
+                dispose();
+                telas.paintMenuRemove();
+            }
+            case "remove_dish" -> removeDish();
+
         }
 
+    }
+    public void removeDish(){
+        if(menu.getSelectedRow() != -1){
+            Aplicativo.restaurante.lanches.remove(menu.getSelectedRow());
+            modelMenu.setRowCount(0);
+
+            for (Lanche lanche : Aplicativo.restaurante.lanches) {
+                modelMenu.addRow(new Object[]{lanche.nome, lanche.preco});
+            }
+
+        }
+
+    }
+
+    public void selectBakery(){
+        Aplicativo.restaurante = comboBoxRest.getItemAt(comboBoxRest.getSelectedIndex());
     }
 
     public void cadRestaurante(){
@@ -241,6 +269,11 @@ public class Janela extends JFrame{
 
     public void addItemToCart(){
         Pedido pedido = Aplicativo.cachePedido.get(0);
+        if(comboBoxFood.getItemAt(comboBoxFood.getSelectedIndex()) == null){
+            JOptionPane.showMessageDialog(this, "Opa, o cardápio está vazio");
+            dispose();
+            telas.paintInitialPage();
+        }
         Lanche lancheSelecionado = comboBoxFood.getItemAt(comboBoxFood.getSelectedIndex());
         pedido.lanchesSelecionados.add(lancheSelecionado);
         paintCartLenght(pedido.lanchesSelecionados.size());
@@ -254,8 +287,26 @@ public class Janela extends JFrame{
         telas.paintFinalCart();
     }
 
-    public void paintJTable(){
-        System.out.println("jtablee");
+    public void paintJTableToRemove(){
+        JPanel panel = new JPanel();
+        panel.setBounds(40,200,300,400);
+        panel.setLayout(new BorderLayout());
+        modelMenu = new DefaultTableModel(new Object[]{"nome", "preco"},0);
+        for (Lanche lanche : Aplicativo.restaurante.lanches) {
+            Object[] row = {lanche.nome, lanche.preco};
+            modelMenu.addRow(row);
+        }
+        menu = new JTable(modelMenu);
+        menu.setDefaultEditor(Object.class, null);
+        JScrollPane scrollPane = new JScrollPane(menu);
+        panel.add(scrollPane, BorderLayout.CENTER);
+        panel.add(scrollPane);
+        panel.setVisible(true);
+
+        label.add(panel);
+    }
+
+    public void paintJTable(boolean isSeeCart){
         JPanel panel = new JPanel();
         panel.setBounds(40,120,300,400);
         panel.setLayout(new BorderLayout());
@@ -263,7 +314,9 @@ public class Janela extends JFrame{
         Pedido pedido = Aplicativo.cachePedido.get(0);
         for (Lanche lanche : pedido.lanchesSelecionados) {
             Object[] row = {lanche.nome, lanche.preco};
-            pedido.total += lanche.preco;
+            if(isSeeCart){
+                pedido.total += lanche.preco;
+            }
             modelo.addRow(row);
         }
         JTable tabela = new JTable(modelo);
@@ -333,7 +386,6 @@ public class Janela extends JFrame{
             dispose();
             telas.paintNoOrder();
         }else{
-
             Aplicativo.cachePedido.clear();
             Aplicativo.cachePedido.add(comboBoxPedido.getItemAt(comboBoxPedido.getSelectedIndex()));
             JOptionPane.showMessageDialog(this,"Usuario: " + Aplicativo.cachePedido.get(0).usuario.nome + " \nCPF do usuário: "

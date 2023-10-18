@@ -21,8 +21,8 @@ public class Telas {
         this.janela = new Janela("Bakelivery", icon);
         janela.paintButton(115,35,53,430, "voltar_initial");
         janela.paintButton(115,35,210,430, "getText_cnpj_nome");
-        janela.paintInput(270, 31, 55, 307, "nome_padaria");
-        janela.paintInput(270, 31, 55, 370, "cnpj_padaria");
+        janela.paintInput(270, 31, 55, 307);
+        janela.paintInput(270, 31, 55, 370);
         janela.setVisible(true);
     }
 
@@ -36,8 +36,8 @@ public class Telas {
             janela.paintButton(230,35,75,422, "cad_restaurante");
         }
 
-        janela.paintInput(270, 31, 53, 300, "a");
-        janela.paintInput(270, 31, 53, 363, "b");
+        janela.paintInput(270, 31, 53, 300);
+        janela.paintInput(270, 31, 53, 363);
         janela.setVisible(true);
     }
 
@@ -48,8 +48,8 @@ public class Telas {
         this.janela = new Janela("Bakelivery", icon);
         janela.paintButton(115,35,53,430, "voltar_initial");
         janela.paintButton(115,35,210,430, "cad_usuario");
-        janela.paintInput(270, 31, 55, 307, "nome_usuario");
-        janela.paintInput(270, 31, 55, 370, "cpf_usuario");
+        janela.paintInput(270, 31, 55, 307);
+        janela.paintInput(270, 31, 55, 370);
         janela.setVisible(true);
     }
 
@@ -119,7 +119,7 @@ public class Telas {
         this.icon = new ImageIcon(Objects.requireNonNull(Main.class.getResource("Image/backgroundCartFinal.png")));
         this.janela = new Janela("Bakelivery", icon);
         janela.paintButton(185, 50, 170, 670, "finish_all");
-        janela.paintJTable();
+        janela.paintJTable(true);
         janela.setVisible(true);
     }
 
@@ -136,15 +136,32 @@ public class Telas {
         this.icon = new ImageIcon(Objects.requireNonNull(Main.class.getResource("Image/backgroundOrderTable.png")));
         this.janela = new Janela("Bakelivery", icon);
         janela.paintButton(40,40,18,13, "voltar_initial");
-        janela.paintJTable();
+        janela.paintJTable(false);
         janela.setVisible(true);
     }
 
 
     public void paintNoOrder(){
-        this.icon = new ImageIcon(Objects.requireNonNull(Main.class.getResource("Image/noOrder.png")));
+        this.icon = new ImageIcon(Objects.requireNonNull(Main.class.getResource("Image/backgroundNoOrder.png")));
         this.janela = new Janela("Bakelivery", icon);
         janela.paintButton(40,40,18,13, "voltar_initial");
+        janela.setVisible(true);
+    }
+
+    public void paintBakeryRemove(){
+        this.icon = new ImageIcon(Objects.requireNonNull(Main.class.getResource("Image/backgroundBakeryRemoveMenu.png")));
+        this.janela = new Janela("Bakelivery", icon);
+        janela.paintCombobox(false, false);
+        janela.paintButton(209,51,90,368, "select_bakery");
+        janela.setVisible(true);
+    }
+
+    public void paintMenuRemove(){
+        this.icon = new ImageIcon(Objects.requireNonNull(Main.class.getResource("Image/backgroundMenuRemove.png")));
+        this.janela = new Janela("Bakelivery", icon);
+        janela.paintButton(40,40,18,13, "voltar_initial");
+        janela.paintButton(209, 51, 28, 680, "remove_dish");
+        janela.paintJTableToRemove();
         janela.setVisible(true);
     }
 
