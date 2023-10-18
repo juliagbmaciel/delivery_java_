@@ -21,7 +21,7 @@ public class Aplicativo {
         usuariosCadastrados.add(usuario);
     }
 
-    public static void imprimirRestaurantes(){
-        System.out.println(restaurantesCadastrados);
-    }
+//    public static void imprimirRestaurantes(){
+//        System.out.println(restaurantesCadastrados);
+//    }
 }

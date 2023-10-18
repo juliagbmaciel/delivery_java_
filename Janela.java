@@ -129,21 +129,17 @@ public class Janela extends JFrame{
                 telas.paintMenuRemove();
             }
             case "remove_dish" -> removeDish();
-
         }
 
     }
     public void removeDish(){
-        if(menu.getSelectedRow() != -1){
+        if(menu.getSelectedRow() != -1) {
             Aplicativo.restaurante.lanches.remove(menu.getSelectedRow());
             modelMenu.setRowCount(0);
-
             for (Lanche lanche : Aplicativo.restaurante.lanches) {
                 modelMenu.addRow(new Object[]{lanche.nome, lanche.preco});
             }
-
         }
-
     }
 
     public void selectBakery(){
@@ -325,7 +321,6 @@ public class Janela extends JFrame{
         panel.add(scrollPane, BorderLayout.CENTER);
         panel.add(scrollPane);
         panel.setVisible(true);
-
         paintTotal(pedido.total);
         label.add(panel);
 
@@ -334,11 +329,9 @@ public class Janela extends JFrame{
     public void paintTotal(double total){
         String totalFormat = String.format("%.2f", total);
         JLabel totalText = new JLabel("R$ " + totalFormat);
-
         totalText.setBounds(105, 540, 300, 100);
         totalText.setForeground(Color.decode("#7e463e"));
         totalText.setFont(new Font("Inter", Font.PLAIN , 18));
-
         revalidate();
         repaint();
         label.add(totalText);
@@ -355,11 +348,9 @@ public class Janela extends JFrame{
 
     public void paintCartLenght(int num){
         cartLabel.setText(""+ num);
-
         cartLabel.setBounds(325, -35, 300, 100);
         cartLabel.setForeground(Color.decode("#7E463E"));
         cartLabel.setFont(new Font("Inter", Font.BOLD , 13));
-
         label.remove(cartLabel);
         label.add(cartLabel);
         label.repaint();
@@ -393,11 +384,6 @@ public class Janela extends JFrame{
             dispose();
             telas.paintOrderTable();
         }
-
-
-
-
-
     }
 
 
